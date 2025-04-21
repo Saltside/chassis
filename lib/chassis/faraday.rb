@@ -105,7 +105,7 @@ module Chassis
     510 => HttpNotExtendedError
   }
 
-  class ServerErrorHandler < ::Faraday::Response::Middleware
+  class ServerErrorHandler < ::Faraday::Middleware
     def on_complete(env)
       status = env.fetch :status
       return unless (400..600).include? status
@@ -113,7 +113,7 @@ module Chassis
     end
   end
 
-  class ParseJson < ::Faraday::Response::Middleware
+  class ParseJson < ::Faraday::Middleware
     def on_complete(env)
       return if [204, 304].include? env.fetch(:status)
 
@@ -163,7 +163,7 @@ module Chassis
     end
   end
 
-  class Logging < ::Faraday::Response::Middleware
+  class Logging < ::Faraday::Middleware
     def initialize(app, logger)
       @app, @logger = app, logger
     end
